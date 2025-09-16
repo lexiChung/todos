@@ -133,4 +133,34 @@ public class TodoControllerTest {
       .andExpect(jsonPath("$.code").value("404"))
       .andExpect(jsonPath("$.message").value("Todo not found"));
   }
+
+  @Test
+  void should_return_422_when_update_todo_with_incomplete_todo() throws Exception {
+    String createRequest = """
+          {
+              "text": "text3"
+          }
+      """;
+    mockMvc.perform(MockMvcRequestBuilders.post("/todo")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(createRequest))
+        .andExpect(status().isOk());
+    String response = mockMvc.perform(MockMvcRequestBuilders.get("/todo/list")
+        .contentType(MediaType.APPLICATION_JSON))
+      .andReturn()
+      .getResponse()
+      .getContentAsString();
+    Integer id = JsonPath.parse(response).read("$.result[0].id", Integer.class);
+
+    String updateRequest = """
+          {
+              "id": %d,
+              "done": true
+          }
+      """.formatted(id);
+    mockMvc.perform(MockMvcRequestBuilders.put("/todo/{id}", id)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(updateRequest))
+      .andExpect(status().isUnprocessableEntity());
+  }
 }
