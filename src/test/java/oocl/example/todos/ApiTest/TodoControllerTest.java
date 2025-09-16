@@ -53,4 +53,19 @@ public class TodoControllerTest {
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.result.length()").value(1));
   }
+
+  @Test
+  void should_create_todo_when_create_todo_with_valid_todo() throws Exception {
+    String request = """
+          {
+              "text": "text3"
+          }
+      """;
+
+    mockMvc.perform(MockMvcRequestBuilders.post("/todo")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(request))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.result").value("Create todo successfully"));
+  }
 }
