@@ -3,6 +3,7 @@ package oocl.example.todos.ApiTest;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.jayway.jsonpath.JsonPath;
 import oocl.example.repository.TodoDBRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,5 +68,19 @@ public class TodoControllerTest {
       .content(request))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.result").value("Create todo successfully"));
+  }
+
+  @Test
+  void should_return_422_when_create_todo_with_empty_text_todo() throws Exception {
+    String request = """
+          {
+              "text": ""
+          }
+      """;
+
+    mockMvc.perform(MockMvcRequestBuilders.post("/todo")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(request))
+      .andExpect(status().isUnprocessableEntity());
   }
 }
