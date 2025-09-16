@@ -47,6 +47,9 @@ public class TodoController {
 
   @DeleteMapping("/{id}")
   public CommonResult<String> deleteById(@PathVariable int id) {
+    if(todoService.getTodoById(id) == null) {
+      return CommonResult.notFound("Todo not found");
+    }
     todoService.deleteById(id);
     return CommonResult.deleteSuccess();
   }

@@ -186,4 +186,13 @@ public class TodoControllerTest {
         .contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.code").value("204"));
   }
+
+  @Test
+  void should_return_404_when_delete_todo_with_invalid_id() throws Exception {
+    int id = 1;
+    mockMvc.perform(MockMvcRequestBuilders.delete("/todo/{id}", id)
+        .contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.code").value("404"))
+      .andExpect(jsonPath("$.message").value("Todo not found"));
+  }
 }

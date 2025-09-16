@@ -53,4 +53,9 @@ public class TodoServiceImpl implements TodoService {
     todoDBRepository.deleteById(id);
   }
 
+  @Override
+  public Todo getTodoById(int id) {
+    return todoDBRepository.getTodoById(id);
+  }
+
 }
