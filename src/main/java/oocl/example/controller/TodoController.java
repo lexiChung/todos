@@ -38,6 +38,9 @@ public class TodoController {
   @PutMapping("/{id}")
   public CommonResult<Todo> update(@PathVariable int id, @RequestBody Todo todo) {
     Todo updatedTodo = todoService.update(id, todo);
+    if(updatedTodo == null) {
+      return CommonResult.notFound("Todo not found");
+    }
     return CommonResult.ok(updatedTodo);
   }
 }

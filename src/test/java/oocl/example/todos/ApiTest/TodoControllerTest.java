@@ -116,4 +116,21 @@ public class TodoControllerTest {
       .andExpect(jsonPath("$.result.text").value("text4"))
       .andExpect(jsonPath("$.result.done").value(true));
   }
+
+  @Test
+  void should_return_404_when_update_todo_with_invalid_id() throws Exception {
+    int id = 1;
+    String updateRequest = """
+          {
+              "id": %d,
+              "text": "text4",
+              "done": true
+          }
+      """.formatted(id);
+    mockMvc.perform(MockMvcRequestBuilders.put("/todo/{id}", id)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(updateRequest))
+      .andExpect(jsonPath("$.code").value("404"))
+      .andExpect(jsonPath("$.message").value("Todo not found"));
+  }
 }

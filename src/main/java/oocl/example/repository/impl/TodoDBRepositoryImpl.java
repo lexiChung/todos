@@ -30,6 +30,6 @@ public class TodoDBRepositoryImpl implements TodoDBRepository {
 
   @Override
   public Todo getTodoById(int id) {
-    return todoJPARepository.findById(id).get();
+    return todoJPARepository.findById(id).orElse(null);
   }
 }
