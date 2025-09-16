@@ -25,14 +25,14 @@ public class TodoServiceImpl implements TodoService {
   }
 
   @Override
-  public void createTodo(TodoDTO todoDto) {
+  public Todo createTodo(TodoDTO todoDto) {
     if (StringUtils.isEmpty(todoDto.getText())) {
       throw new TodoWithEmptyTextException("Todo text cannot be empty");
     }
     Todo todo = new Todo();
     todo.setText(todoDto.getText());
     todo.setDone(false);
-    todoDBRepository.save(todo);
+    return todoDBRepository.save(todo);
   }
 
   @Override

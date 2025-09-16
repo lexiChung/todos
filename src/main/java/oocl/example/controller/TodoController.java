@@ -30,10 +30,19 @@ public class TodoController {
     return CommonResult.ok(todos);
   }
 
+  @GetMapping("/{id}")
+  public CommonResult<Todo> getTodoById(@PathVariable int id) {
+    Todo todo = todoService.getTodoById(id);
+    if(todo == null) {
+      return CommonResult.notFound("Todo not found");
+    }
+    return CommonResult.ok(todo);
+  }
+
   @PostMapping()
-  public CommonResult<String> createTodo(@RequestBody TodoDTO todoDto) {
-    todoService.createTodo(todoDto);
-    return CommonResult.ok("Create todo successfully");
+  public CommonResult<Todo> createTodo(@RequestBody TodoDTO todoDto) {
+    Todo todo = todoService.createTodo(todoDto);
+    return CommonResult.ok(todo,"Create todo successfully");
   }
 
   @PutMapping("/{id}")

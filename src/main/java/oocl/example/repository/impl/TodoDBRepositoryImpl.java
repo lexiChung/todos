@@ -19,8 +19,8 @@ public class TodoDBRepositoryImpl implements TodoDBRepository {
   }
 
   @Override
-  public void save(Todo todo) {
-    todoJPARepository.save(todo);
+  public Todo save(Todo todo) {
+    return todoJPARepository.save(todo);
   }
 
   @Override

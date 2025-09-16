@@ -7,7 +7,7 @@ import oocl.example.dto.TodoDTO;
 public interface TodoService {
   List<Todo> getTodos();
 
-  void createTodo(TodoDTO todoDto);
+  Todo createTodo(TodoDTO todoDto);
 
   Todo update(int id, Todo todo);
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 public interface TodoDBRepository {
   List<Todo> getTodos();
 
-  void save(Todo todo);
+  Todo save(Todo todo);
 
   void clear();
 
