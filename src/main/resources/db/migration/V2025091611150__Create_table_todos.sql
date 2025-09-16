@@ -1,0 +1,7 @@
+CREATE TABLE todos
+(
+    id    BIGINT NOT NULL AUTO_INCREMENT,
+    text VARCHAR(255),
+    done BOOLEAN,
+    PRIMARY KEY (id)
+)
