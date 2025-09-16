@@ -6,6 +6,7 @@ import lombok.Data;
 public class CommonResult<T> {
   public static String CODE_200 = "200";
   private static String CODE_404 = "404";
+  private static String CODE_204 = "204";
 
   private String code;
   private String message;
@@ -30,5 +31,9 @@ public class CommonResult<T> {
 
   public static <T> CommonResult<T> notFound(String message) {
     return new CommonResult<>(CODE_404, message, null);
+  }
+
+  public static <T> CommonResult<T> deleteSuccess() {
+    return new CommonResult<>(CODE_204, null, null);
   }
 }

@@ -163,4 +163,27 @@ public class TodoControllerTest {
         .content(updateRequest))
       .andExpect(status().isUnprocessableEntity());
   }
+
+  @Test
+  void should_return_204_when_delete_todo_with_valid_id() throws Exception {
+    String createRequest = """
+          {
+              "text": "text3"
+          }
+      """;
+    mockMvc.perform(MockMvcRequestBuilders.post("/todo")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(createRequest))
+        .andExpect(status().isOk());
+    String response = mockMvc.perform(MockMvcRequestBuilders.get("/todo/list")
+        .contentType(MediaType.APPLICATION_JSON))
+      .andReturn()
+      .getResponse()
+      .getContentAsString();
+    Integer id = JsonPath.parse(response).read("$.result[0].id", Integer.class);
+
+    mockMvc.perform(MockMvcRequestBuilders.delete("/todo/{id}", id)
+        .contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.code").value("204"));
+  }
 }

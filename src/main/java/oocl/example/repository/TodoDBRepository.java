@@ -13,4 +13,6 @@ public interface TodoDBRepository {
   void clear();
 
   Todo getTodoById(int id);
+
+  void deleteById(int id);
 }

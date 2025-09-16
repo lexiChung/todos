@@ -7,6 +7,7 @@ import oocl.example.domain.Todo;
 import oocl.example.dto.TodoDTO;
 import oocl.example.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,5 +43,11 @@ public class TodoController {
       return CommonResult.notFound("Todo not found");
     }
     return CommonResult.ok(updatedTodo);
+  }
+
+  @DeleteMapping("/{id}")
+  public CommonResult<String> deleteById(@PathVariable int id) {
+    todoService.deleteById(id);
+    return CommonResult.deleteSuccess();
   }
 }

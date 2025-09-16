@@ -32,4 +32,9 @@ public class TodoDBRepositoryImpl implements TodoDBRepository {
   public Todo getTodoById(int id) {
     return todoJPARepository.findById(id).orElse(null);
   }
+
+  @Override
+  public void deleteById(int id) {
+    todoJPARepository.deleteById(id);
+  }
 }
