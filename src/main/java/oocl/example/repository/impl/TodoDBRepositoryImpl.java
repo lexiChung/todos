@@ -27,4 +27,9 @@ public class TodoDBRepositoryImpl implements TodoDBRepository {
   public void clear() {
     todoJPARepository.deleteAll();
   }
+
+  @Override
+  public Todo getTodoById(int id) {
+    return todoJPARepository.findById(id).get();
+  }
 }

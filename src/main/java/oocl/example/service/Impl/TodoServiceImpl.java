@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TodoServiceImpl implements TodoService {
+
   @Autowired
   private TodoDBRepository todoDBRepository;
 
@@ -22,12 +23,21 @@ public class TodoServiceImpl implements TodoService {
 
   @Override
   public void createTodo(TodoDTO todoDto) {
-    if(StringUtils.isEmpty(todoDto.getText())){
+    if (StringUtils.isEmpty(todoDto.getText())) {
       throw new TodoWithEmptyTextException("Todo text cannot be empty");
     }
     Todo todo = new Todo();
     todo.setText(todoDto.getText());
     todoDBRepository.save(todo);
+  }
+
+  @Override
+  public Todo update(int id, Todo todo) {
+    Todo updateTodo = todoDBRepository.getTodoById(id);
+    updateTodo.setText(todo.getText());
+    updateTodo.setDone(todo.isDone());
+    todoDBRepository.save(updateTodo);
+    return updateTodo;
   }
 
 }

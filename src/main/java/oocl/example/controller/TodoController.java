@@ -5,11 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import oocl.example.common.CommonResult;
 import oocl.example.domain.Todo;
 import oocl.example.dto.TodoDTO;
-import oocl.example.repository.TodoDBRepository;
 import oocl.example.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,5 +33,11 @@ public class TodoController {
   public CommonResult<String> createTodo(@RequestBody TodoDTO todoDto) {
     todoService.createTodo(todoDto);
     return CommonResult.ok("Create todo successfully");
+  }
+
+  @PutMapping("/{id}")
+  public CommonResult<Todo> update(@PathVariable int id, @RequestBody Todo todo) {
+    Todo updatedTodo = todoService.update(id, todo);
+    return CommonResult.ok(updatedTodo);
   }
 }

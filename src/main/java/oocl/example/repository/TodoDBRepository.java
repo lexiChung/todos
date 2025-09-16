@@ -11,4 +11,6 @@ public interface TodoDBRepository {
   void save(Todo todo);
 
   void clear();
+
+  Todo getTodoById(int id);
 }

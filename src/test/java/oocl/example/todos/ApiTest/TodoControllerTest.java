@@ -83,4 +83,37 @@ public class TodoControllerTest {
       .content(request))
       .andExpect(status().isUnprocessableEntity());
   }
+
+  @Test
+  void should_return_200_when_update_todo_with_valid_todo() throws Exception {
+    String createRequest = """
+          {
+              "text": "text3"
+          }
+      """;
+    mockMvc.perform(MockMvcRequestBuilders.post("/todo")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(createRequest))
+        .andExpect(status().isOk());
+    String response = mockMvc.perform(MockMvcRequestBuilders.get("/todo/list")
+        .contentType(MediaType.APPLICATION_JSON))
+      .andReturn()
+      .getResponse()
+      .getContentAsString();
+    Integer id = JsonPath.parse(response).read("$.result[0].id", Integer.class);
+
+    String updateRequest = """
+          {
+              "id": %d,
+              "text": "text4",
+              "done": true
+          }
+      """.formatted(id);
+    mockMvc.perform(MockMvcRequestBuilders.put("/todo/{id}", id)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(updateRequest))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.result.text").value("text4"))
+      .andExpect(jsonPath("$.result.done").value(true));
+  }
 }
