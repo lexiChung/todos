@@ -67,7 +67,7 @@ public class TodoControllerTest {
       .contentType(MediaType.APPLICATION_JSON)
       .content(request))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.result").value("Create todo successfully"));
+      .andExpect(jsonPath("$.message").value("Create todo successfully"));
   }
 
   @Test

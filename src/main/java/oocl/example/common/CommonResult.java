@@ -26,7 +26,7 @@ public class CommonResult<T> {
   }
 
   public static <T> CommonResult<T> ok(T result,String message) {
-    return new CommonResult<>(CODE_200, null, result);
+    return new CommonResult<>(CODE_200, message, result);
   }
 
   public static <T> CommonResult<T> ok() {
