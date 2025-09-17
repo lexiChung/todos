@@ -49,3 +49,47 @@ jobs:
           name: "[Report] JUnit Tests Report"
           path: build/test-results/test/*.xml
           reporter: java-junit
+
+  deploy-dev:
+    needs: [ test ]
+    runs-on: ubuntu-latest
+    environment: dev
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build application
+        run: ./gradlew build -x test
+
+      - name: Install Railway CLI
+        if: github.event_name != 'pull_request'
+        run: npm install -g @railway/cli
+
+      - name: Deploy to Railway App Service
+        run: |
+          echo "Starting deployment to Railway..."
+          railway up --service ${{ secrets.RAILWAY_SERVICE_ID }}
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}

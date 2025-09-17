@@ -1,18 +1,17 @@
 spring:
-  application:
-      name: todos
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
   datasource:
-    url: jdbc:mysql://localhost:3306/todo?useUnicode=true&characterEncoding=utf8
-    username: "root"
-    password: "123456"
+    url: ${DATABASE_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD}
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     hibernate:
       ddl-auto: validate
   flyway:
     enabled: true
-    Locations: classpath:db/migration
+    locations: classpath:db/migration
     baseline-on-migrate: true
     validate-on-migrate: true
-
