@@ -40,3 +40,13 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        csv.required = false
+        html.required = true
+    }
+}
+
+test.finalizedBy jacocoTestReport
